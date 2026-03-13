@@ -29,6 +29,7 @@ Dokumentasi lengkap dapat dilihat pada link berikut:
 - Generate **Secure KeyPair**
 - Get **Public Key (ANSI X9.62 format)**
 - Sign data menggunakan **ECDSA SHA256**
+- JSON Canonicalization menggunakan **RFC 8785**
 - Private key **tidak pernah keluar dari device**
 - Signature output dalam **DER format**
 
