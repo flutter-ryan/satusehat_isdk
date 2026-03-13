@@ -41,6 +41,9 @@ public class SatusehatIsdkPlugin: NSObject, FlutterPlugin {
   }
 
   func generateKeyPair(alias: String) throws {
+    if try getPrivateKey(alias: alias) != nil {
+        return
+    }
     // Attributes for Secure Enclave ECDSA P-256
     let access = SecAccessControlCreateWithFlags(
       kCFAllocatorDefault,
@@ -61,12 +64,32 @@ public class SatusehatIsdkPlugin: NSObject, FlutterPlugin {
     ]
 
     var error: Unmanaged<CFError>?
+
     guard let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &error) else {
       throw error!.takeRetainedValue() as Error
     }
     // private key stored in Secure Enclave; nothing to return
     (privateKey as Any)
   }
+
+  func getPrivateKey(alias: String) throws -> SecKey? {
+
+    let query: [String:Any] = [
+        kSecClass as String: kSecClassKey,
+        kSecAttrApplicationTag as String: alias.data(using: .utf8)!,
+        kSecReturnRef as String: true,
+        kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom
+    ]
+
+    var item: CFTypeRef?
+    let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+    if status != errSecSuccess {
+      return nil
+    }
+
+    return item as! SecKey
+}
 
   func getPublicKey(alias: String) throws -> Data? {
     // Lookup by application tag

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:crypto/crypto.dart' as crypto;
 
 import 'package:satusehat_isdk/src/secure_keystore.dart';
 
@@ -12,15 +11,10 @@ class SignResource {
     String jsonCanonical = canonicalize(data);
     final bytes = utf8.encode(jsonCanonical);
 
-    /// Hasing before signing
-    final hashing = crypto.sha256.convert(bytes);
-    Uint8List signingData = Uint8List.fromList(hashing.bytes);
-
     /// Signing hashing json/document
+    Uint8List signingData = Uint8List.fromList(bytes);
     final signatureDer = await SecureKeystore.sign(alias, signingData);
-    if (signatureDer == null) {
-      return null;
-    }
+    if (signatureDer == null) return null;
 
     /// ECDSA, CURVE P256, FORMAT DER : signature sudah menggunakan format DER jadi lagsung diencoding ke base64
     return base64Encode(signatureDer);
