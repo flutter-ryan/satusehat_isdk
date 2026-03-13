@@ -1,15 +1,50 @@
 # satusehat_isdk
 
-A new Flutter plugin project.
+Flutter plugin untuk integrasi **Secure Key + Digital Signature** dengan standar **SATUSEHAT ISDK**.
+Plugin ini menyediakan mekanisme untuk:
 
-## Getting Started
+- Membuat **key pair** di secure hardware
+- Mengambil **public key**
+- Melakukan **digital signing**
+- Digunakan untuk kebutuhan **FHIR Provenance Signature**
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/to/develop-plugins),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Plugin ini menggunakan:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Android Keystore**
+- **iOS Secure Enclave**
+- **ECDSA P-256**
+- **SHA256**
 
+---
+
+# Features
+
+- Generate **Secure KeyPair**
+- Get **Public Key (ANSI X9.62 format)**
+- Sign data menggunakan **ECDSA SHA256**
+- Private key **tidak pernah keluar dari device**
+- Signature output dalam **DER format**
+
+---
+
+# Platform Support
+
+| Platform | Status |
+|--------|--------|
+| Android | ✅ Android Keystore |
+| iOS | ✅ Secure Enclave |
+| Web | ❌ Not Supported |
+| Desktop | ❌ Not Supported |
+
+---
+
+# Installation
+
+Tambahkan dependency pada `pubspec.yaml`.
+
+```yaml
+dependencies:
+  satusehat_isdk:
+    git:
+      url: git@github.com:your-org/satusehat_isdk.git
+      ref: master
