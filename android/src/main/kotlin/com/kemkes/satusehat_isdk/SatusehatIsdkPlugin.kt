@@ -116,10 +116,16 @@ class SatusehatIsdkPlugin :
         val ks = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
         val entry = ks.getEntry(alias, null) ?: return null
         val privateKey = (entry as KeyStore.PrivateKeyEntry).privateKey
+
+        // Explicit SHA256 hashing
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hash = digest.digest(data)
+
         // Use SHA256withECDSA
-        val sig = Signature.getInstance("SHA256withECDSA")
+        val sig = Signature.getInstance("NONEwithECDSA")
         sig.initSign(privateKey)
-        sig.update(data)
+        sig.update(hash)
+
         val signatureDer = sig.sign() // DER encoded (r,s)
         return signatureDer
     }
