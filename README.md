@@ -53,5 +53,5 @@ Tambahkan dependency pada `pubspec.yaml`.
 dependencies:
   satusehat_isdk:
     git:
-      url: git@github.com:your-org/satusehat_isdk.git
+      url: https://github.com/flutter-ryan/satusehat_isdk.git
       ref: master
