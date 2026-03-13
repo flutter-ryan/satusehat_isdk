@@ -1,4 +1,4 @@
-# satusehat_isdk
+# Satusehat ISDK
 
 Flutter plugin untuk integrasi **Secure Key + Digital Signature** dengan standar **SATUSEHAT ISDK**.
 Plugin ini menyediakan mekanisme untuk:
@@ -14,6 +14,13 @@ Plugin ini menggunakan:
 - **iOS Secure Enclave**
 - **ECDSA P-256**
 - **SHA256**
+
+# Documentation
+
+Dokumentasi lengkap dapat dilihat pada link berikut:
+
+🔗 https://docs.google.com/document/d/1gyN-qL7eD_Hj-QHHRwGcgALRGNoxqUWhsOpDonxRn1I/edit?tab=t.0
+
 
 ---
 
