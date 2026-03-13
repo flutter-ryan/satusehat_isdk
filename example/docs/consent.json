@@ -1,0 +1,233 @@
+{
+  "entry": [
+    {
+      "_id": "67085ee720b8489c3dea1714",
+      "category": [
+        {
+          "coding": [
+            {
+              "code": "IDSCL",
+              "display": "information disclosure",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        }
+      ],
+      "dateTime": "2024-03-19T07:10:52.623Z",
+      "id": "e2f9fbb8-b534-4520-96d4-dab96dd622fb",
+      "organization": [
+        {
+          "display": "SATSEUHAT Platform",
+          "reference": "Organization/1001"
+        }
+      ],
+      "patient": {
+        "reference": "Patient/P1234567890"
+      },
+      "performer": [
+        {
+          "display": "Adiet",
+          "reference": "Patient/P1234567890"
+        }
+      ],
+      "policyRule": {
+        "coding": [
+          {
+            "code": "OPTIN",
+            "display": "opt-in",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+          }
+        ]
+      },
+      "provision": {
+        "action": [
+          {
+            "coding": [
+              {
+                "code": "use",
+                "display": "Use",
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction"
+              }
+            ]
+          }
+        ],
+        "actor": [
+          {
+            "reference": {
+              "display": "SATSEUHAT Platform",
+              "reference": "Organization/1001"
+            },
+            "role": {
+              "coding": [
+                {
+                  "code": "CST",
+                  "display": "custodian",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                }
+              ]
+            }
+          },
+          {
+            "reference": {
+              "display": "Klinik Gizi dan Tumbuh Kembang",
+              "reference": "Organization/1234"
+            },
+            "role": {
+              "coding": [
+                {
+                  "code": "PRCP",
+                  "display": "Primary recipient",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                }
+              ]
+            }
+          }
+        ],
+        "data": [
+          {
+            "meaning": "dependents",
+            "reference": {
+              "display": "Kunjungan ke Dokter Gizi tanggal 19 Maret 2024, Follow Up Consultation",
+              "reference": "Encounter/335d68cd-a3b1-486d-918c-99375cf2e36f"
+            }
+          },
+          {
+            "meaning": "dependents",
+            "reference": {
+              "display": "Kunjungan ke Ahli Gizi pada tanggal 11 Oktober 2024",
+              "reference": "Encounter/335d68cd-a3b1-486d-918c-99375cf2eaaa"
+            }
+          }
+        ],
+        "period": {
+          "end": "2024-03-20T07:10:52.623Z",
+          "start": "2024-03-19T07:10:52.623Z"
+        },
+        "type": "permit"
+      },
+      "resourceType": "Consent",
+      "scope": {
+        "coding": [
+          {
+            "code": "patient-privacy",
+            "display": "Privacy Consent",
+            "system": "http://terminology.hl7.org/CodeSystem/consentscope"
+          }
+        ]
+      },
+      "status": "active"
+    },
+    {
+      "_id": "67085ef120b8489c3dea1715",
+      "category": [
+        {
+          "coding": [
+            {
+              "code": "IDSCL",
+              "display": "information disclosure",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        }
+      ],
+      "dateTime": "2024-03-19T07:10:52.623Z",
+      "id": "28c40e24-124f-4ce0-a4ac-c92ccd3d2d43",
+      "organization": [
+        {
+          "display": "SATSEUHAT Platform",
+          "reference": "Organization/1001"
+        }
+      ],
+      "patient": {
+        "reference": "Patient/P1234567890"
+      },
+      "performer": [
+        {
+          "display": "Adiet",
+          "reference": "Patient/P1234567890"
+        }
+      ],
+      "policyRule": {
+        "coding": [
+          {
+            "code": "OPTIN",
+            "display": "opt-in",
+            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+          }
+        ]
+      },
+      "provision": {
+        "action": [
+          {
+            "coding": [
+              {
+                "code": "use",
+                "display": "Use",
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction"
+              }
+            ]
+          }
+        ],
+        "actor": [
+          {
+            "reference": {
+              "display": "SATSEUHAT Platform",
+              "reference": "Organization/1001"
+            },
+            "role": {
+              "coding": [
+                {
+                  "code": "CST",
+                  "display": "custodian",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                }
+              ]
+            }
+          },
+          {
+            "reference": {
+              "display": "Klinik Mata Sentosa",
+              "reference": "Organization/1234"
+            },
+            "role": {
+              "coding": [
+                {
+                  "code": "PRCP",
+                  "display": "primary recipient",
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType"
+                }
+              ]
+            }
+          }
+        ],
+        "data": [
+          {
+            "meaning": "dependents",
+            "reference": {
+              "display": "Kunjungan ke Dokter Mata tanggal 1 Maret 2024",
+              "reference": "Encounter/335d68cd-a3b1-486d-918c-99375cf2e36f"
+            }
+          }
+        ],
+        "period": {
+          "end": "2024-03-20T07:10:52.623Z",
+          "start": "2024-03-19T07:10:52.623Z"
+        },
+        "type": "permit"
+      },
+      "resourceType": "Consent",
+      "scope": {
+        "coding": [
+          {
+            "code": "patient-privacy",
+            "display": "Privacy Consent",
+            "system": "http://terminology.hl7.org/CodeSystem/consentscope"
+          }
+        ]
+      },
+      "status": "active"
+    }
+  ],
+  "resourceType": "Bundle",
+  "type": "searchset"
+}
