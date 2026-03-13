@@ -26,52 +26,50 @@ class SignResource {
     return base64Encode(signatureDer);
   }
 
-  String canonicalize(String json) {
-    var jsonObject = jsonDecode(json);
+  /// RFC8785  JSON Canonicalization
+  String canonicalize(dynamic json) {
+    var jsonObject = json is String ? jsonDecode(json) : json;
     var sb = StringBuffer();
     serialize(jsonObject, sb);
     return sb.toString();
   }
 
   void serialize(Object? o, StringBuffer sb) {
-    if (o == null || o is num || o is bool || o is String) {
+    if (o == null || o is bool || o is String) {
       // Primitive type
       sb.write(json.encode(o));
+    } else if (o is num) {
+      // Primitive type
+      sb.write(o.toString());
     } else if (o is List) {
       // Array - Maintain element order
       sb.write('[');
 
-      var next = false;
-      for (var element in o) {
-        if (next) {
-          sb.write(',');
-        }
-        next = true;
-        // Array element - Recursive expansion
-        serialize(element, sb);
+      for (var i = 0; i < o.length; i++) {
+        if (i > 0) sb.write(',');
+        serialize(o[i], sb);
       }
+
       sb.write(']');
     } else if (o is Map) {
       // Object - Sort properties before serializing
       sb.write('{');
-      var next = false;
 
-      var keys = List<String>.from(o.keys);
-      keys.sort();
+      final keys = o.keys.map((e) => e.toString()).toList()..sort();
 
-      for (var element in keys) {
-        if (next) {
-          sb.write(',');
-        }
-        next = true;
-        // Property names are strings - Use ES6/JSON
-        sb.write(json.encode(element));
+      for (var i = 0; i < keys.length; i++) {
+        if (i > 0) sb.write(',');
+
+        final key = keys[i];
+        sb.write(json.encode(key));
         sb.write(':');
-        // Property value - Recursive expansion
-        serialize(o[element], sb);
+
+        serialize(o[key], sb);
       }
 
       sb.write('}');
+    } else {
+      throw ArgumentError("Unsupported JSON type: ${o.runtimeType}");
     }
   }
 }
