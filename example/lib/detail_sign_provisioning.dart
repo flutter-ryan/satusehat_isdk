@@ -19,6 +19,7 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
   bool _isSigning = false;
   bool _isSigned = false;
   ProvenanceModel? provenanceModel;
+
   @override
   void initState() {
     super.initState();
