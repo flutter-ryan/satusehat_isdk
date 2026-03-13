@@ -3,7 +3,6 @@ import UIKit
 
 import Security
 import LocalAuthentication
-import CryptoKit
 
 public class SatusehatIsdkPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
@@ -129,16 +128,12 @@ public class SatusehatIsdkPlugin: NSObject, FlutterPlugin {
     if status != errSecSuccess { return nil }
     guard let sk = item as! SecKey? else { return nil }
 
-     // Explicit SHA256 hashing
-    let hash = SHA256.hash(data: data)
-    let hashData = Data(hash)
-
     var error: Unmanaged<CFError>?
     // Use ECDSA with SHA256, get signature in DER (r,s)
     guard let sig = SecKeyCreateSignature(
       sk,
-      .ecdsaSignatureDigestX962SHA256,
-      hashData as CFData,
+      .ecdsaSignatureMessageX962SHA256,
+      data as CFData,
       &error
     ) as Data? else {
       throw error!.takeRetainedValue() as Error

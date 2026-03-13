@@ -33,18 +33,21 @@ class _SendCsrPageState extends State<SendCsrPage> {
       appBar: AppBar(title: Text('Kirim CSR')),
       body: Column(
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Center(
-                child: Text(
-                  '$_csr',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
+          if (_isLoading)
+            Expanded(child: Center(child: CircularProgressIndicator()))
+          else
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Center(
+                  child: Text(
+                    '$_csr',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
             ),
-          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(18, 18, 18, 32),
             child: ElevatedButton(

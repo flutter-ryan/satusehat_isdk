@@ -5,6 +5,8 @@ import 'package:satusehat_isdk_example/models/consent_model.dart' hide Coding;
 import 'package:satusehat_isdk_example/models/provenance_model.dart';
 import 'dart:ui' as ui;
 
+import 'package:satusehat_isdk_example/signature_validator.dart';
+
 class DetailSignProvisioning extends StatefulWidget {
   const DetailSignProvisioning({super.key, this.consent});
 
@@ -19,6 +21,7 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
   bool _isSigning = false;
   bool _isSigned = false;
   ProvenanceModel? provenanceModel;
+  String? _signature;
 
   @override
   void initState() {
@@ -74,6 +77,7 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
         ],
       );
       _isSigning = false;
+      _signature = signature;
     });
   }
 
@@ -244,6 +248,18 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
                             // Handle approve action
                           },
                           child: const Text("Revoke Consent"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SignatureValidator(
+                                consent: consent,
+                                signature: _signature,
+                              ),
+                            ),
+                          ),
+                          child: const Text("Validate"),
                         ),
                       ],
                     ),

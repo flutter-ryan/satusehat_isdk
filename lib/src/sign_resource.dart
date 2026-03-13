@@ -14,10 +14,10 @@ class SignResource {
     final bytes = utf8.encode(jsonCanonical);
 
     /// Explicit SHA256 hashing
-    final digest = sha256.convert(bytes);
-    Uint8List signingData = Uint8List.fromList(digest.bytes);
+    // final digest = sha256.convert(bytes);
 
     /// Signing hashing json/document
+    Uint8List signingData = Uint8List.fromList(bytes);
     final signatureDer = await SecureKeystore.sign(alias, signingData);
     if (signatureDer == null) return null;
 
