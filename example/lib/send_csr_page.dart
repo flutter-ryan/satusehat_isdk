@@ -14,17 +14,26 @@ class _SendCsrPageState extends State<SendCsrPage> {
   String? _csr;
 
   Future<void> _getCsr() async {
-    final csr = await _generateCsr.generateCsr(cnId: 'P1234567890');
-    setState(() {
-      _csr = csr;
-      _isLoading = false;
-    });
+    try {
+      final csr = await _generateCsr.generateCsr(cnId: 'P1234567890');
+      setState(() {
+        _csr = csr;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _csr = e.toString();
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _getCsr();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _getCsr();
+    });
   }
 
   @override

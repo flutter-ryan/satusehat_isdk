@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:pointycastle/pointycastle.dart';
 import 'package:satusehat_isdk/src/secure_keystore.dart';
 import 'package:uuid/uuid.dart';
@@ -11,44 +11,55 @@ class GenerateCsr {
   }) async {
     const alias = 'satusehat_isdk';
 
-    // 1. generate key (only once)
-    await SecureKeystore.generateKeyPair(alias);
+    try {
+      // 1. generate key (only once)
+      await SecureKeystore.generateKeyPair(alias);
 
-    final Uint8List? pubPoint = await SecureKeystore.getPublicKey(alias);
-    if (pubPoint == null) {
-      throw Exception('Public key tidak tersedia dengan alias $alias');
+      final Uint8List? pubPoint = await SecureKeystore.getPublicKey(alias);
+      if (pubPoint == null) {
+        throw Exception('Public key tidak tersedia dengan alias $alias');
+      }
+
+      // 2. Build DN
+      final serialNumber = Uuid().v4();
+      final dn = buildDN(
+        cnId: cnId,
+        serial: serialNumber,
+        isPractitioner: isPractitioner,
+      );
+
+      // 3. Build SAN
+      final san = buildSAN(isPractitioner: isPractitioner);
+
+      // 4. Build EKU
+      final eku = buildEKU();
+
+      // 5. Build SubjectPublicKeyInfo
+      // Ambil bytes public key
+      final spki = buildEcdsaP256PublicKeyInfo(pubPoint);
+
+      // 6. Build CSR Info
+      final csrInfo = buildCSRInfo(dn: dn, spki: spki, san: san, eku: eku);
+
+      // 7. Sign CSR
+      // Ambil bytes private key
+      final der = await signCSR(csrInfo, alias);
+
+      // return 'String';
+      // 8. Encode PEM
+      return toPem(der);
+    } on PlatformException catch (e) {
+      switch (e.code) {
+        case "CANCELED":
+          throw Exception(e.message);
+
+        case "LOCKED":
+          throw Exception("Too many attemp: ${e.message}");
+
+        default:
+          throw Exception("Keystore error: ${e.message}");
+      }
     }
-
-    // 2. Build DN
-    final serialNumber = Uuid().v4();
-    final dn = buildDN(
-      cnId: cnId,
-      serial: serialNumber,
-      isPractitioner: isPractitioner,
-    );
-
-    // 3. Build SAN
-    final san = buildSAN(isPractitioner: isPractitioner);
-
-    // 4. Build EKU
-    final eku = buildEKU();
-
-    // 5. Build SubjectPublicKeyInfo
-    // Ambil bytes public key
-    final spki = buildEcdsaP256PublicKeyInfo(pubPoint);
-
-    // 6. Build CSR Info
-    final csrInfo = buildCSRInfo(dn: dn, spki: spki, san: san, eku: eku);
-
-    // 7. Sign CSR
-    // Ambil bytes private key
-    final der = await signCSR(csrInfo, alias);
-
-    // return 'String';
-    // 8. Encode PEM
-    final pem = toPem(der);
-
-    return pem;
   }
 
   ASN1Sequence buildDN({

@@ -31,57 +31,71 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
 
   void _signing() async {
     final signResource = SignResource();
-    final signature = await signResource.signApproval(
-      consentModelToJson(consent),
-    );
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
     setState(() {
-      provenanceModel = ProvenanceModel(
-        resourceType: "Provenance",
-        id: "auto",
-        target: [
-          Target(reference: "Consent/${consent.id}", display: "Consent"),
-        ],
-        recorded: DateTime.now(),
-        agent: [
-          Agent(
-            who: Target(reference: "", display: "User"),
-            role: [
-              Role(
-                coding: [
-                  Coding(
-                    system:
-                        "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                    code: "PART",
-                    display: "Participation",
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-        signature: [
-          Signature(
-            type: [
-              Type(
-                system: "urn:iso-astm:E1762-95:2013",
-                code: "1.2.840.10065.1.12.1.7",
-                display: "Consent Signature",
-              ),
-            ],
-            when: DateTime.now().toUtc().toIso8601String(),
-            who: Target(
-              reference: "${widget.consent!.patient!.reference}",
-              display: "User",
-            ),
-            targetFormat: "application/fhir+json",
-            sigFormat: "application/octet-stream",
-            data: signature,
-          ),
-        ],
-      );
-      _isSigning = false;
-      _signature = signature;
+      _isSigning = true;
     });
+    try {
+      final signature = await signResource.signApproval(
+        consentModelToJson(consent),
+      );
+      setState(() {
+        provenanceModel = ProvenanceModel(
+          resourceType: "Provenance",
+          id: "auto",
+          target: [
+            Target(reference: "Consent/${consent.id}", display: "Consent"),
+          ],
+          recorded: DateTime.now(),
+          agent: [
+            Agent(
+              who: Target(reference: "", display: "User"),
+              role: [
+                Role(
+                  coding: [
+                    Coding(
+                      system:
+                          "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      code: "PART",
+                      display: "Participation",
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+          signature: [
+            Signature(
+              type: [
+                Type(
+                  system: "urn:iso-astm:E1762-95:2013",
+                  code: "1.2.840.10065.1.12.1.7",
+                  display: "Consent Signature",
+                ),
+              ],
+              when: DateTime.now().toUtc().toIso8601String(),
+              who: Target(
+                reference: "${widget.consent!.patient!.reference}",
+                display: "User",
+              ),
+              targetFormat: "application/fhir+json",
+              sigFormat: "application/octet-stream",
+              data: signature,
+            ),
+          ],
+        );
+        _isSigning = false;
+        _signature = signature;
+        _isSigned = true;
+      });
+    } catch (e) {
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text('$e'), backgroundColor: Colors.red),
+      );
+      setState(() {
+        _isSigning = false;
+      });
+    }
   }
 
   void rejectConsent() {}
@@ -217,13 +231,7 @@ class _DetailSignProvisioningState extends State<DetailSignProvisioning> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _isSigning = true;
-                              _isSigned = true;
-                            });
-                            _signing();
-                          },
+                          onPressed: _signing,
                           child: const Text("Approve & Sign"),
                         ),
                         ElevatedButton(
