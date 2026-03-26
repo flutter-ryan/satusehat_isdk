@@ -12,7 +12,7 @@ class SignResource {
     String jsonCanonical = canonicalize(data);
     final bytes = utf8.encode(jsonCanonical);
 
-    /// Signing hashing json/document
+    /// Signing bytes json/document
     Uint8List signingData = Uint8List.fromList(bytes);
     final signatureDer = await SecureKeystore.sign(alias, signingData);
     if (signatureDer == null) return null;
