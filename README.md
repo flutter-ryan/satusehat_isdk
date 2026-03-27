@@ -64,15 +64,27 @@ Tambahkan key berikut:
 <string>Aplikasi membutuhkan Face ID / Touch ID untuk menandatangani dokumen secara aman</string>
 ```
 
-## Android (Opsional)
+## Android 
 
-### AndroidManifest.xml
+### AndroidManifest.xml (Opsional)
 
 Tambahkan key berikut:
 
 ```xml
 <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+```
+
+### MainActivity.kt
+
+Gunakan flutter embedding v2
+
+```kotlin
+
+import io.flutter.embedding.android.FlutterFragmentActivity
+
+class MainActivity : FlutterFragmentActivity()
+
 ```
 
 ---
